@@ -23,3 +23,7 @@ docker build -t pdf-chat-assistant .
 
 Run the Docker Container:
 docker run -p 8501:8501 pdf-chat-assistant
+
+![Screenshot from 2024-05-06 18-42-51](https://github.com/Grv02/Custom_RAG_pipeline/assets/37537513/c5aa2129-f2e0-43d6-9402-b369bb823f6f)
+![Screenshot from 2024-05-06 18-42-37](https://github.com/Grv02/Custom_RAG_pipeline/assets/37537513/49de26f8-fd20-44ec-b376-b44fb7c4872d)
+
