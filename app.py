@@ -5,6 +5,17 @@ from transformers import DistilBertTokenizer, DistilBertForQuestionAnswering
 import torch
 
 def get_pdf_text(pdf_docs, start_page, end_page):
+    """
+    Extract text from PDF files within a specified range of pages.
+
+    Args:
+        pdf_docs (list): List of uploaded PDF files.
+        start_page (int): Starting page number.
+        end_page (int): Ending page number.
+
+    Returns:
+        str: Concatenated text extracted from the specified range of pages in the PDFs.
+    """
     text = ""
     for pdf in pdf_docs:
         pdf_reader = PdfReader(pdf)
@@ -17,6 +28,16 @@ def get_pdf_text(pdf_docs, start_page, end_page):
     return text
 
 def get_answer(question, context):
+     """
+    Get an answer to a question based on a given context using DistilBERT model.
+
+    Args:
+        question (str): The question to be answered.
+        context (str): The context (document text) in which to search for the answer.
+
+    Returns:
+        str: The answer to the question found in the context.
+    """
     tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased-distilled-squad')
     model = DistilBertForQuestionAnswering.from_pretrained('distilbert-base-uncased-distilled-squad')
     inputs = tokenizer.encode_plus(question, context, add_special_tokens=True, return_tensors="pt", truncation=True, max_length=512)
