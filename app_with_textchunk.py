@@ -10,6 +10,15 @@ from htmlTemplates import css, bot_template, user_template
 from langchain.llms import HuggingFaceHub
 
 def get_pdf_text(pdf_docs):
+    """
+    Extract text content from PDF files.
+
+    Args:
+        pdf_docs (list): List of uploaded PDF files.
+
+    Returns:
+        str: Concatenated text content from all PDF files.
+    """
     text = ""
     for pdf in pdf_docs:
         pdf_reader = PdfReader(pdf)
@@ -19,6 +28,15 @@ def get_pdf_text(pdf_docs):
 
 
 def get_text_chunks(text):
+    """
+    Split text into smaller chunks.
+
+    Args:
+        text (str): The text to be split into chunks.
+
+    Returns:
+        list: List of text chunks.
+    """
     text_splitter = CharacterTextSplitter(
         separator="\n",
         chunk_size=1000,
@@ -30,12 +48,30 @@ def get_text_chunks(text):
 
 
 def get_vectorstore(text_chunks):
+    """
+    Generate vector store from text chunks.
+
+    Args:
+        text_chunks (list): List of text chunks.
+
+    Returns:
+        FAISS: Vector store generated from text chunks.
+    """
     embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-base")
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
 
 def get_conversation_chain(vectorstore):
+    """
+    Create a conversational retrieval chain.
+
+    Args:
+        vectorstore (FAISS): Vector store for text chunks.
+
+    Returns:
+        ConversationalRetrievalChain: Conversational retrieval chain.
+    """
     llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature": 0.5, "max_length": 512})
 
 
@@ -50,6 +86,12 @@ def get_conversation_chain(vectorstore):
 
 
 def handle_userinput(user_question):
+    """
+    Process user input and generate bot response.
+
+    Args:
+        user_question (str): User's question.
+    """
     response = st.session_state.conversation({'question': user_question})
     st.session_state.chat_history = response['chat_history']
 
