@@ -17,3 +17,9 @@ The application follows these steps to provide responses to your questions:
 
 5. Response Generation: The selected chunks are passed to the language model, which generates a response based on the relevant content of the PDFs.
 
+## Run using Docker
+Build the Docker Image:
+docker build -t pdf-chat-assistant .
+
+Run the Docker Container:
+docker run -p 8501:8501 pdf-chat-assistant
